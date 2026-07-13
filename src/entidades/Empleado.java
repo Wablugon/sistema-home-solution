@@ -1,10 +1,7 @@
 package entidades;
 
 public abstract class Empleado{
-	
-	private static int proximoLegajo = 0;
-	
-	
+
 	private String nombre;
 	private int nroLegajo;
 	protected double valor;
@@ -13,13 +10,13 @@ public abstract class Empleado{
 	private int cantidadRetrasos;
 	protected String tipo;
 	
-	public Empleado(String nombre, double valor) {
+	public Empleado(String nombre, double valor, int legajo) {
 		this.nombre = nombre;
 		this.tareaAsignado = null;
 		this.estaOcupado = false;
 		this.cantidadRetrasos = 0;
 		this.valor = valor;
-		this.nroLegajo = proximoLegajo++;
+		this.nroLegajo = legajo;
 	}
 
 	public int getLegajo() {

@@ -5,8 +5,8 @@ public class EmpleadoDePlanta extends Empleado{
 	
 	/*private static final int HORAS_DIA = 8;*/
 	
-	public EmpleadoDePlanta(String nombre, double valorDia, String categoria) {
-		super(nombre, valorDia);
+	public EmpleadoDePlanta(String nombre, double valorDia, int legajo, String categoria) {
+		super(nombre, valorDia, legajo);
 		this.categoriaEmpleado = categoria;
 		this.tipo = "Planta";
 	}

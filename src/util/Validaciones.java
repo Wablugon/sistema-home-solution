@@ -3,54 +3,96 @@ package util;
 import java.util.Collection;
 import java.util.List;
 
+import excepciones.DatosInvalidosException;
+
 public class Validaciones {
 
     //Strings
     public static boolean validarNoNulo(String valor) {
-        return valor != null;
+        if(valor == null) {
+            throw new DatosInvalidosException("El valor no puede ser nulo");
+        }
+        return true;
     }
     
     public static boolean validarNoVacio(String valor) {
-        return valor != null && !valor.trim().isEmpty();
+        if(valor.trim().isEmpty()) {
+            throw new DatosInvalidosException("El valor no puede ser vacío");
+        }
+        return true;
     }
 
     public static boolean validarLongitudMinima(String valor, int minimo) {
-        return valor != null && valor.length() >= minimo;
+        if(valor.length() < minimo) {
+            throw new DatosInvalidosException("El valor debe tener al menos " + minimo + " caracteres");
+        }
+        return true;
     }
 
     public static boolean validarLongitudMaxima(String valor, int maximo) {
-        return valor != null && valor.length() <= maximo;
+        if(valor.length() > maximo) {
+            throw new DatosInvalidosException("El valor no puede tener más de " + maximo + " caracteres");
+        }
+        return true;
     }
 
     //Numeros
     public static boolean validarPositivo(double valor) {
-        return valor > 0;
-    }  
+        if(valor <= 0) {
+            throw new DatosInvalidosException("El valor debe ser positivo");
+        }
+        return true;
+    }
 
     public static boolean validarNoNegativo(double valor) {
-        return valor >= 0;
+        if(valor < 0) {
+            throw new DatosInvalidosException("El valor no puede ser negativo");
+        }
+        return true;
     }
 
     public static boolean validarRango(double valor, double minimo, double maximo) {
-        return valor >= minimo && valor <= maximo;
+        if(valor < minimo || valor > maximo) {
+            throw new DatosInvalidosException("El valor debe estar entre " + minimo + " y " + maximo);
+        }
+        return true;
     }
 
     //Colecciones
     public static boolean validarNoVacia(List<?> lista) {
-        return lista != null && !lista.isEmpty();
+        if(lista == null) {
+            throw new DatosInvalidosException("La lista no puede ser nula");
+        }
+        if(lista.isEmpty()) {
+            throw new DatosInvalidosException("La lista no puede estar vacía");
+        }
+        return true;
     }
 
     public static boolean validarNoNulo(Collection<?> coleccion) {
-        return coleccion != null;
+        if(coleccion == null) {
+            throw new DatosInvalidosException("La colección no puede ser nula");
+        }
+        return true;
     }
 
     //Arrays
     public static boolean validarMismaLongitud(Object[] array1, Object[] array2) {
-        return array1 != null && array2 != null && array1.length == array2.length;
+        if(array1 == null || array2 == null) {
+            throw new DatosInvalidosException("Los arrays no pueden ser nulos");
+        }
+
+        if(array1.length != array2.length) {
+            throw new DatosInvalidosException("Los arrays deben tener la misma longitud");
+        }
+        return true;
     }
 
     //Objetos
     public static boolean validarNoNulo(Object objeto) {
-        return objeto != null;
+        if(objeto == null) {
+            throw new DatosInvalidosException("El objeto no puede ser nulo");
+        }
+        return true;
     }
 }

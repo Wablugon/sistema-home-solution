@@ -2,8 +2,8 @@ package entidades;
 
 public class EmpleadoContratado extends Empleado {
 	
-	public EmpleadoContratado(String nombre, double valor) {
-		super(nombre, valor);
+	public EmpleadoContratado(String nombre, double valor, int legajo) {
+		super(nombre, valor, legajo);
 		this.tipo = "Contratado";
 	}
 	
