@@ -1,5 +1,7 @@
 package excepciones;
 
-public class TareaYaFinalizadaException {
+public class TareaYaFinalizadaException extends HomeSolutionException {
+
+    public TareaYaFinalizadaException(String message) { super(message);}
 
 }

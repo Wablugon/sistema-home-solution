@@ -1,5 +1,7 @@
 package excepciones;
 
-public class ProyectoFinalizadoException {
+public class ProyectoFinalizadoException extends HomeSolutionException {
+
+    public ProyectoFinalizadoException(String message) { super(message);}
 
 }

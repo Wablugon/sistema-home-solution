@@ -1,5 +1,7 @@
 package excepciones;
 
-public class HomeSolutionException {
+public class HomeSolutionException extends RuntimeException {
+
+    public HomeSolutionException(String message) { super(message);}
 
 }
