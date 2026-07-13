@@ -1,12 +1,15 @@
 package servicios;
 
+import java.util.HashMap;
 import java.util.List;
 import entidades.Empleado;
 
 public class EmpleadoService {
 
+    private HashMap<Integer, Empleado> empleados;
+
     public void registrarEmpleado(String nombre, double valor) {
-        //TODO
+        
     }
 
     public void registrarEmpleado(String nombre, double valor, String categoria) {
