@@ -1,9 +1,12 @@
 package util;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.List;
 
 import excepciones.DatosInvalidosException;
+import excepciones.FormatoFechaInvalidoException;
 
 public class Validaciones {
 
@@ -56,6 +59,27 @@ public class Validaciones {
             throw new DatosInvalidosException("El valor debe estar entre " + minimo + " y " + maximo);
         }
         return true;
+    }
+
+    //Fechas
+    public static LocalDate parsearFecha(String fecha) {
+        try {
+            return LocalDate.parse(fecha);
+        } catch (DateTimeParseException e) {
+            throw new FormatoFechaInvalidoException("La fecha debe tener el formato yyyy-MM-dd");
+        }
+    }
+
+    public static void validarFechaFutura(LocalDate fecha) {
+        if(fecha.isBefore(LocalDate.now())) {
+            throw new FormatoFechaInvalidoException("La fecha debe ser futura");
+        }
+    }
+
+    public static void validarOrdenFechas(LocalDate fechaInicio, LocalDate fechaFin) {
+        if(fechaFin.isBefore(fechaInicio)) {
+            throw new FormatoFechaInvalidoException("La fecha de fin debe ser posterior a la fecha de inicio");
+        }
     }
 
     //Colecciones
