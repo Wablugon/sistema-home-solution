@@ -76,6 +76,26 @@ public class ProyectoService {
         proyectos.put(nuevoProyecto.getID(), nuevoProyecto);
     }
 
+    public void asignarEmpleado(Empleado empleado, Integer IDProyecto, String tituloTarea) {
+        Validaciones.validarNoNulo(empleado);
+        Validaciones.validarPositivo(IDProyecto);
+        Validaciones.validarNoNulo(tituloTarea);
+        Validaciones.validarNoVacio(tituloTarea);
+
+        Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+        proyecto.asignarEmpleado(empleado, tituloTarea);
+    }
+
+    public void reasignarEmpleado(Empleado empleado, Integer IDProyecto, String tituloTarea) {
+        Validaciones.validarNoNulo(empleado);
+        Validaciones.validarPositivo(IDProyecto);
+        Validaciones.validarNoNulo(tituloTarea);
+        Validaciones.validarNoVacio(tituloTarea);
+
+        Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+        proyecto.reasignarEmpleado(empleado, tituloTarea);
+    }
+
     public void registrarRetrasoEnTarea(int IDProyecto, String tituloTarea, double diasRetraso) {
         Validaciones.validarPositivo(IDProyecto);
         Validaciones.validarNoNulo(tituloTarea);
@@ -182,6 +202,11 @@ public class ProyectoService {
             throw new TareaNoEncontradaException("La tarea con título '" + tituloTarea + "' no existe en el proyecto con ID: " + proyecto.getID());
         }
         return true;
+    }
+
+    public Proyecto obtenerProyectoPorID(Integer IDProyecto) {
+        Validaciones.validarPositivo(IDProyecto);
+        return obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
     }
 
     private int convertirTelefono(String telefonoStr) {

@@ -1,5 +1,7 @@
 package servicios;
 
+import entidades.Empleado;
+
 public class AsignacionService {
     private EmpleadoService empleadoService;
     private ProyectoService proyectoService;
@@ -9,20 +11,24 @@ public class AsignacionService {
         this.proyectoService = proyectoService;
     }
 
-    public void asignarResponsableEnTarea(Integer numero, String titulo) {
-        //TODO
+    public void asignarResponsableEnTarea(Integer IDProyecto, String tituloTarea) {
+        Empleado empleado = empleadoService.obtenerEmpleado();
+        proyectoService.asignarEmpleado(empleado, IDProyecto, tituloTarea);
     }
 
-    public void asignarResponsableMenosRetraso(Integer numero, String titulo) {
-        //TODO
+    public void asignarResponsableMenosRetraso(Integer IDProyecto, String tituloTarea) {
+        Empleado empleado = empleadoService.obtenerEmpleadoMenosRetrasos();
+        proyectoService.asignarEmpleado(empleado, IDProyecto, tituloTarea);
     }
 
-    public void reasignarEmpleadoEnProyecto(Integer numero, Integer legajo, String titulo) {
-        //TODO
+    public void reasignarEmpleadoEnProyecto(Integer IDProyecto, Integer legajo, String tituloTarea) {
+        Empleado empleado = empleadoService.obtenerEmpleadoPorLegajo(legajo);
+        proyectoService.reasignarEmpleado(empleado, IDProyecto, tituloTarea);
     }
 
-    public void reasignarEmpleadoConMenosRetraso(Integer numero, String titulo) {
-        //TODO
+    public void reasignarEmpleadoConMenosRetraso(Integer IDProyecto, String tituloTarea) {
+        Empleado empleado = empleadoService.obtenerEmpleadoMenosRetrasos();
+        proyectoService.reasignarEmpleado(empleado, IDProyecto, tituloTarea);
     }
     
 }

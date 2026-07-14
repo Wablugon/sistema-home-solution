@@ -93,6 +93,29 @@ public class EmpleadoService {
             .getLegajo();
     }
 
+    public Empleado obtenerEmpleado() {
+        return empleados.values()
+            .stream()
+            .filter(e -> !e.estaAsignado())
+            .findFirst()
+            .orElseThrow(() -> new SinEmpleadosDisponiblesException("No hay empleados disponibles"));
+    }
+
+    public Empleado obtenerEmpleadoMenosRetrasos() {
+        return empleados.values()
+            .stream()
+            .filter(e -> !e.estaAsignado())
+            .min(Comparator.comparingInt(Empleado::cantidadRetrasos))
+            .orElseThrow(() -> new SinEmpleadosDisponiblesException("No hay empleados disponibles"));
+    }
+
+    public Empleado obtenerEmpleadoPorLegajo(Integer legajo) {
+        Validaciones.validarPositivo(legajo);
+        Empleado empleado = empleados.get(legajo);
+        Validaciones.validarNoNulo(empleado);
+        return empleado;
+    }
+
     private int generarLegajo() {
         return siguienteLegajo++;
     }

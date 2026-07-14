@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import util.Validaciones;
+
 public class Proyecto {
 	
 	private int numeroProyecto;
@@ -146,8 +148,18 @@ public class Proyecto {
 		return true;
 	}
 
-	public boolean asignarEmpleado(Empleado empleadoNuevo, String tarea) {
-		Tarea t = tareasSolicitadas.get(tarea);
+	public boolean asignarEmpleado(Empleado empleado, String tituloTarea) {
+		Tarea t = tareasSolicitadas.get(tituloTarea);
+		Validaciones.validarNoNulo(t);
+		t.asignarEmpleado(empleado);
+		historialEmpleado.add(empleado);
+		return true;
+	}
+
+	public boolean reasignarEmpleado(Empleado empleadoNuevo, String tituloTarea) {
+		Tarea t = tareasSolicitadas.get(tituloTarea);
+		Validaciones.validarNoNulo(t);
+		t.eliminarResponsable();
 		t.asignarEmpleado(empleadoNuevo);
 		historialEmpleado.add(empleadoNuevo);
 		return true;
