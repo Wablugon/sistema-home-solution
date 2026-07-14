@@ -6,14 +6,12 @@ public abstract class Empleado{
 	private int nroLegajo;
 	protected double valor;
 	private Tarea tareaAsignado;
-	private boolean estaOcupado;
 	private int cantidadRetrasos;
 	protected String tipo;
 	
 	public Empleado(String nombre, double valor, int legajo) {
 		this.nombre = nombre;
 		this.tareaAsignado = null;
-		this.estaOcupado = false;
 		this.cantidadRetrasos = 0;
 		this.valor = valor;
 		this.nroLegajo = legajo;
@@ -29,13 +27,10 @@ public abstract class Empleado{
 	}
 	
 	public boolean asignarATarea(Tarea nuevaTarea) {
-		//la nuevaTarea es verificada en HomeSolution
-		
-		if(estaAsignado()) {
+		if(this.estaAsignado()) {
 			return false;
 		} else {
 			this.tareaAsignado = nuevaTarea;
-			this.estaOcupado = true;
 			return true;
 		}
 	}
@@ -45,15 +40,12 @@ public abstract class Empleado{
 			return false;
 		} else {
 			this.tareaAsignado = null;
-			this.estaOcupado = false;
 			return true;
 		}
 	}
 
 	public Boolean estaAsignado() {
-		//estaOcupado no puede ser true si su tarea == null
-		
-		return this.estaOcupado;
+		return this.tareaAsignado != null;
 	}
 
 	public int cantidadRetrasos() {

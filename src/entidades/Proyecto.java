@@ -3,12 +3,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class Proyecto {
-	
-	private static int siguienteID = 0;
 	
 	private int numeroProyecto;
 	private String direccionVivienda;
@@ -24,8 +23,8 @@ public class Proyecto {
 	
 	boolean tuvoRetraso = false;
 	
-	public Proyecto(String direccionVivienda, LocalDate fechaInicio, LocalDate fechaFin, String nombreCliente, int telefonoCliente, String emailCliente) {
-		this.numeroProyecto = siguienteID++;
+	public Proyecto(int ID, String direccionVivienda, LocalDate fechaInicio, LocalDate fechaFin, String nombreCliente, int telefonoCliente, String emailCliente) {
+		this.numeroProyecto = ID;
 		
 		this.direccionVivienda = direccionVivienda;
 		
@@ -75,6 +74,7 @@ public class Proyecto {
 	}
 	
 	public void actualizarAFinalizado(LocalDate fechaFin) {
+		this.librarEmpleados();
 		this.estadoProyecto = Estado.FINALIZADO;
 		this.fechaRealFin = fechaFin;
 	}
@@ -83,7 +83,17 @@ public class Proyecto {
 		return this.historialEmpleado;
 	}
 
+	public void registrarRetrasoEnTarea(String tituloTarea, double diasRetraso) {
+		Tarea tarea = this.tareasSolicitadas.get(tituloTarea);
+		tarea.registrarRetraso(diasRetraso);
+		this.registrarRetrasoProyecto();
+	}
 	
+	public void finalizarTarea(String tituloTarea) {
+		Tarea tarea = this.tareasSolicitadas.get(tituloTarea);
+		tarea.finalizarTarea();
+	}
+
 	public boolean todasTareasFinalizadas() {
 		for(Tarea t : tareasSolicitadas.values())
 			if(!t.estadoTarea())
@@ -95,7 +105,7 @@ public class Proyecto {
 	public double calcularCostoFinal() {
 		double costoTotal = 0.0;
 		for(Tarea t : this.tareasSolicitadas.values()) {
-			if(t.tieneReponsable()) {
+			if(t.tieneResponsable()) {
 				Empleado responsable = t.responsableTarea();
 				double dias = t.diasTarea();
 				
@@ -117,8 +127,8 @@ public class Proyecto {
 		return costoFinal;
 	}
 
-	public String consultarEstado() {
-		return this.estadoProyecto.toString();
+	public Estado consultarEstado() {
+		return this.estadoProyecto;
 	}
 
 	public Boolean agregarTarea(String titulo, String descripcion, double diasNecesarios) {
@@ -165,26 +175,10 @@ public class Proyecto {
 		
 		return sb.toString();
 	}
-	//Metodos para saber si el proyecto esta en x estado
-	public boolean estaFinalizado() { //Devuelve TRUE si el proyecto se encuentra finalizado, caso contrario devuelve FALSE
-		if (estadoProyecto.equals(Estado.FINALIZADO))
-			return true;
-		return false;
-	}
-	
-	public boolean estaPendiente() { //Devuelve TRUE si el proyecto se encuentra pendiente, caso contrario devuelve FALSE
-		if (estadoProyecto.equals(Estado.PENDIENTE))
-			return true;
-		return false;
-	}
 	
 	public String direccionVivienda() {
 		String direccion = this.direccionVivienda;
 		return direccion;
-	}
-	
-	public void registrarRetrasoProyecto() {
-		this.tuvoRetraso = true;
 	}
 	
 	public ArrayList<Tarea> devolverTareas() {
@@ -195,7 +189,28 @@ public class Proyecto {
 		}
 		
 		return listaTareas;
+	}
+
+	public List<Tarea> tareasNoAsignadas() {
+		List<Tarea> listaTareas = new ArrayList<>();
+		for(Tarea t : tareasSolicitadas.values()) {
+			if(!t.tieneResponsable() && !t.estadoTarea()) {
+				listaTareas.add(t);
+			}
+		}
+		return listaTareas;
+	}
+
+	public List<Empleado> devolverEmpleados() {
+		ArrayList<Empleado> listaEmpleados = new ArrayList<>();
+		for(Tarea t : tareasSolicitadas.values()) {
+			if(t.tieneResponsable() && !t.estadoTarea()) {
+				Empleado responsable = t.responsableTarea();
+				listaEmpleados.add(responsable);
+			}
+		}
 		
+		return listaEmpleados;
 	}
 	
 	/*METODOS PRIVADOS AUXILIARES*/
@@ -205,6 +220,19 @@ public class Proyecto {
 		this.fechaEstimadaFin = this.fechaEstimadaFin.plusDays(diasCompletos);
 	}
 
+	private void registrarRetrasoProyecto() {
+		this.tuvoRetraso = true;
+	}
+
+	private void librarEmpleados() {
+		for(Tarea t : tareasSolicitadas.values()) {
+			if(t.tieneResponsable()) {
+				Empleado responsable = t.responsableTarea();
+				responsable.removerDeTarea();
+				t.eliminarResponsable();
+			}
+		}
+	}
 
 
 }

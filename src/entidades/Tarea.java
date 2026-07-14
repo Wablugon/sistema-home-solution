@@ -5,7 +5,6 @@ public class Tarea {
 	private String descripcion;
 	private double cantidadDiasNecesarios;
 	private Empleado responsableACargo;
-	private boolean tieneResponsableACargo;
 	//si esta terminada, estadoTarea = true
 	private boolean estadoTarea;
 	
@@ -16,7 +15,6 @@ public class Tarea {
 			cantidadDias = cantidadDias - 0.5 + 1;
 		this.cantidadDiasNecesarios = cantidadDias;
 		this.responsableACargo = null;
-		this.tieneResponsableACargo = false;
 		this.estadoTarea = false;
 	}
 	
@@ -28,13 +26,12 @@ public class Tarea {
 		return this.responsableACargo;
 	}
 	
-	public boolean tieneReponsable() {
-		return this.tieneResponsableACargo;
+	public boolean tieneResponsable() {
+		return this.responsableACargo != null;
 	}
 	
 	public void asignarEmpleado(Empleado empleado) {
 		this.responsableACargo = empleado;
-		this.tieneResponsableACargo = true;
 	}
 	
 	public void finalizarTarea() {
@@ -43,11 +40,16 @@ public class Tarea {
 	}
 
 	public void registrarRetraso(double diasDeRetraso) {
+		this.cantidadDiasNecesarios += diasDeRetraso;
+		this.responsableACargo.registrarRetraso();
 	}
 
+	public void eliminarResponsable() {
+		this.responsableACargo = null;
+	}
+	
 	private void eliminarEmpleado() {
 		this.responsableACargo = null;
-		this.tieneResponsableACargo = false;
 	}
 
 	public boolean estadoTarea() {

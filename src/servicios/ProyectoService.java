@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import entidades.Empleado;
 import entidades.Estado;
 import entidades.Proyecto;
 import entidades.Tarea;
 import excepciones.DatosInvalidosException;
+import excepciones.ProyectoNoEncontradoException;
+import excepciones.TareaNoEncontradaException;
 import util.Validaciones;
 
 public class ProyectoService {
@@ -73,97 +76,112 @@ public class ProyectoService {
         proyectos.put(nuevoProyecto.getID(), nuevoProyecto);
     }
 
-    //TODO: evaluar parametros, placeholder: sin parámetros
-    public void agregarTareaEnProyecto() {
-        //TODO
+    public void registrarRetrasoEnTarea(int IDProyecto, String tituloTarea, double diasRetraso) {
+        Validaciones.validarPositivo(IDProyecto);
+        Validaciones.validarNoNulo(tituloTarea);
+        Validaciones.validarNoVacio(tituloTarea);
+        Validaciones.validarPositivo(diasRetraso);
+
+        Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+        proyecto.registrarRetrasoEnTarea(tituloTarea, diasRetraso);
     }
 
-    //TODO: evaluar parametros, placeholder: sin parámetros
-    public void registrarRetrasoEnTarea() {
-        //TODO
-    }
-
-    //TODO: evaluar parametros, placeholder: sin parámetros
-    public void finalizarTarea(Integer numero, String titulo) {
-        //TODO
+    public void finalizarTarea(Integer IDProyecto, String tituloTarea) {
+        Validaciones.validarPositivo(IDProyecto);
+        Validaciones.validarNoNulo(tituloTarea);
+        Validaciones.validarNoVacio(tituloTarea);
+        Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+        proyecto.finalizarTarea(tituloTarea);
     }
     
-    public void finalizarProyecto(Integer numero, String fin) {
-        //TODDO
+    public void finalizarProyecto(Integer IDProyecto, String fechaFin) {
+        Validaciones.validarPositivo(IDProyecto);
+        Validaciones.validarNoNulo(fechaFin);
+        Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+        LocalDate fechaFinLocalDate = Validaciones.parsearFecha(fechaFin);
+        LocalDate fechaInicio = proyecto.getFechaInicio();
+        Validaciones.validarOrdenFechas(fechaInicio, fechaFinLocalDate);
+        proyecto.actualizarAFinalizado(fechaFinLocalDate);
     }
 
-    public double costoProyecto(Integer numero) {
-        //TODO
-        return -1;
+    public double costoProyecto(Integer IDProyecto) {
+        Validaciones.validarPositivo(IDProyecto);
+        Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+        return proyecto.calcularCostoFinal();
     }
 
-    //TODO: evaluar parametros, retornar id o objeto proyecto, placeholder: ID
-    public List<Integer> proyectosPendientes(Integer numero) {
-        //TODO
-        return null;
+    public List<Integer> proyectosPendientes() {
+        return proyectos.values()
+                .stream()
+                .filter(p -> p.consultarEstado() == Estado.PENDIENTE)
+                .map(Proyecto::getID)
+                .toList();
     }
 
-        //TODO: evaluar parametros, retornar id o objeto proyecto, placeholder: ID
-    public List<Integer> proyectosActivos(Integer numero) {
-        //TODO
-        return null;
+    public List<Integer> proyectosActivos() {
+        return proyectos.values()
+                .stream()
+                .filter(p -> p.consultarEstado() == Estado.ACTIVO)
+                .map(Proyecto::getID)
+                .toList();
     }
 
-        //TODO: evaluar parametros, retornar id o objeto proyecto, placeholder: ID
-    public List<Integer> proyectosFinalizados(Integer numero) {
-        //TODO
-        return null;
+    public List<Integer> proyectosFinalizados() {
+        return proyectos.values()
+                .stream()
+                .filter(p -> p.consultarEstado() == Estado.FINALIZADO)
+                .map(Proyecto::getID)
+                .toList();
     }
 
-    //Utilizar excepcion correspondiente "ProyectoFinalizadoException" || "ProyectoNoEncontradoException"
-    public boolean verificarProyecto(Integer ID) {
-        //TODO
-        return false;
+    //Retorna su estado en valor String, para poder mostrarlo en la vista
+    public String consultarEstado(Integer ID) {
+        Validaciones.validarPositivo(ID);
+        Proyecto proyecto = obtenerProyecto(ID).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + ID));
+        Estado estado = proyecto.consultarEstado();
+        return estado.toString();
     }
 
     public boolean estaFinalizado(Integer numero) {
-        //TODO
-        return false;
+        Validaciones.validarPositivo(numero);
+        Proyecto proyecto = obtenerProyecto(numero).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + numero));
+        return proyecto.consultarEstado() == Estado.FINALIZADO;
     }
 
-    public List<Empleado> empleadosAsignadosAProyecto(Integer numero) {
-        //TODO
-        return null;
+    public List<Empleado> empleadosAsignadosAProyecto(Integer IDProyecto) {
+        Validaciones.validarPositivo(IDProyecto);
+        Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+        return proyecto.devolverEmpleados();
     }
 
-    public List<Tarea> tareasProyectoNoAsignadas(Integer numero) {
-        //TODO
-        return null;
+    public List<Tarea> tareasProyectoNoAsignadas(Integer IDProyecto) {
+        Validaciones.validarPositivo(IDProyecto);
+        Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+        return proyecto.tareasNoAsignadas();
     }
 
-    public List<Tarea> tareasDeUnProyecto(Integer numero) {
-        //TODO
-        return null;
+    public List<Tarea> tareasDeUnProyecto(Integer IDProyecto) {
+        Validaciones.validarPositivo(IDProyecto);
+        Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+        return proyecto.devolverTareas();
     }
 
-    public String consultarDomicilioProyecto(Integer numero) {
-        //TODO
-        return null;
+    public String consultarDomicilioProyecto(Integer IDProyecto) {
+        Validaciones.validarPositivo(IDProyecto);
+        Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+        return proyecto.direccionVivienda();
     }
 
-    public boolean verificarTarea(Proyecto proyecto, String titulo) {
-        //TODO
-        return false;
-    }
+    public boolean verificarTarea(Proyecto proyecto, String tituloTarea) {
+        Validaciones.validarNoNulo(proyecto);
+        Validaciones.validarNoNulo(tituloTarea);
+        Validaciones.validarNoVacio(tituloTarea);
 
-    private Estado consultarProyecto(Integer numero) {
-        //TODO
-        return null;
-    }
-
-    private boolean verificarProyectoGeneral(Integer ID) {
-        //TODO
-        return false;
-    }
-
-    private boolean verificarFinalizacion(Integer ID) {
-        //TODO
-        return false;
+        Tarea tarea = proyecto.getTarea(tituloTarea);
+        if (tarea == null) {
+            throw new TareaNoEncontradaException("La tarea con título '" + tituloTarea + "' no existe en el proyecto con ID: " + proyecto.getID());
+        }
+        return true;
     }
 
     private int convertirTelefono(String telefonoStr) {
@@ -179,6 +197,10 @@ public class ProyectoService {
 
     private int generarID() {
         return siguienteID++;
+    }
+
+    private Optional<Proyecto> obtenerProyecto(Integer ID) {
+        return Optional.ofNullable(proyectos.get(ID));
     }
 
 
