@@ -11,6 +11,7 @@ import entidades.Estado;
 import entidades.Proyecto;
 import entidades.Tarea;
 import excepciones.DatosInvalidosException;
+import excepciones.ProyectoFinalizadoException;
 import excepciones.ProyectoNoEncontradoException;
 import excepciones.TareaNoEncontradaException;
 import util.Validaciones;
@@ -202,6 +203,28 @@ public class ProyectoService {
             throw new TareaNoEncontradaException("La tarea con título '" + tituloTarea + "' no existe en el proyecto con ID: " + proyecto.getID());
         }
         return true;
+    }
+
+    public void agregarTarea(Integer IDProyecto, String tituloTarea, String descripcion, double diasNecesarios) {
+        Validaciones.validarNoNegativo(IDProyecto);
+        Validaciones.validarNoNegativo(diasNecesarios);
+        Validaciones.validarNoNulo(tituloTarea);
+        Validaciones.validarNoVacio(tituloTarea);
+        Validaciones.validarNoNulo(descripcion);
+        Validaciones.validarNoVacio(descripcion);
+
+        Proyecto proyecto = obtenerProyectoPorID(IDProyecto);
+        if (proyecto.consultarEstado() == Estado.FINALIZADO) {
+            throw new ProyectoFinalizadoException("El proyecto ya ha sido finalizado.");
+        } else {
+            proyecto.agregarTarea(tituloTarea, descripcion, diasNecesarios);
+        }
+    }
+
+    public double consultarCosto(Integer IDProyecto) {
+        Validaciones.validarNoNegativo(IDProyecto);
+        Proyecto proyecto = obtenerProyectoPorID(IDProyecto);
+        return proyecto.calcularCostoFinal();
     }
 
     public Proyecto obtenerProyectoPorID(Integer IDProyecto) {
