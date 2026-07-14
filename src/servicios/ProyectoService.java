@@ -14,6 +14,7 @@ import util.Validaciones;
 
 public class ProyectoService {
 
+    private int siguienteID = 1;
     private Map<Integer, Proyecto> proyectos;
 
     public ProyectoService() {
@@ -57,7 +58,7 @@ public class ProyectoService {
         Validaciones.validarFechaFutura(fechaFin);
         Validaciones.validarOrdenFechas(fechaInicio, fechaFin);
 
-        Proyecto nuevoProyecto = new Proyecto(domicilio, fechaInicio, fechaFin, nombreCliente, telefonoCliente, emailCliente);
+        Proyecto nuevoProyecto = new Proyecto(generarID(), domicilio, fechaInicio, fechaFin, nombreCliente, telefonoCliente, emailCliente);
         for(int i = 0; i < titulos.length; i++) {
             Validaciones.validarNoNulo(titulos[i]);
             Validaciones.validarNoVacio(titulos[i]);
@@ -174,6 +175,10 @@ public class ProyectoService {
 	    }
 
         return telefonoCliente;
+    }
+
+    private int generarID() {
+        return siguienteID++;
     }
 
 
