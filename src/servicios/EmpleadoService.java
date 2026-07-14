@@ -52,7 +52,7 @@ public class EmpleadoService {
         return consultarCantidadRetrasosEmpleado(legajo) > 0;
     }
 
-    public List<Tupla<Integer, String>> empleados() {
+    public List<Tupla<Integer, String>> tuplaEmpleados() {
         List<Tupla<Integer, String>> lista = new ArrayList<>();
         for(Empleado e : empleados.values()) {
 			int legajo = e.getLegajo();
@@ -62,6 +62,15 @@ public class EmpleadoService {
 			lista.add(tupla);
 		}
 		return lista;
+    }
+
+    public List<Empleado> empleadosAsignados() {
+        return List.copyOf(
+            empleados.values()
+                .stream()
+                .filter(e -> e.estaAsignado())
+                .toList()
+        );
     }
 
     public List<Empleado> empleadosNoAsignados() {

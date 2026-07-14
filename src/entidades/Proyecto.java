@@ -169,6 +169,7 @@ public class Proyecto {
 		return tareasSolicitadas.get(tituloTarea);
 	}
 	
+	@Override
 	public String toString() {
 		
 		StringBuilder sb = new StringBuilder();

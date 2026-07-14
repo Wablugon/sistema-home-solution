@@ -131,27 +131,24 @@ public class ProyectoService {
         return proyecto.calcularCostoFinal();
     }
 
-    public List<Integer> proyectosPendientes() {
+    public List<Proyecto> proyectosPendientes() {
         return proyectos.values()
                 .stream()
                 .filter(p -> p.consultarEstado() == Estado.PENDIENTE)
-                .map(Proyecto::getID)
                 .toList();
     }
 
-    public List<Integer> proyectosActivos() {
+    public List<Proyecto> proyectosActivos() {
         return proyectos.values()
                 .stream()
                 .filter(p -> p.consultarEstado() == Estado.ACTIVO)
-                .map(Proyecto::getID)
                 .toList();
     }
 
-    public List<Integer> proyectosFinalizados() {
+    public List<Proyecto> proyectosFinalizados() {
         return proyectos.values()
                 .stream()
                 .filter(p -> p.consultarEstado() == Estado.FINALIZADO)
-                .map(Proyecto::getID)
                 .toList();
     }
 
@@ -230,6 +227,12 @@ public class ProyectoService {
     public Proyecto obtenerProyectoPorID(Integer IDProyecto) {
         Validaciones.validarPositivo(IDProyecto);
         return obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+    }
+
+    public String informacionProyecto(Integer IDProyecto) {
+        Validaciones.validarPositivo(IDProyecto);
+        Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
+        return proyecto.toString();
     }
 
     private int convertirTelefono(String telefonoStr) {
