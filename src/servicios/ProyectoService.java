@@ -189,19 +189,7 @@ public class ProyectoService {
         Proyecto proyecto = obtenerProyecto(IDProyecto).orElseThrow(() -> new ProyectoNoEncontradoException("No se encontró el proyecto con ID: " + IDProyecto));
         return proyecto.direccionVivienda();
     }
-
-    public boolean verificarTarea(Proyecto proyecto, String tituloTarea) {
-        Validaciones.validarNoNulo(proyecto);
-        Validaciones.validarNoNulo(tituloTarea);
-        Validaciones.validarNoVacio(tituloTarea);
-
-        Tarea tarea = proyecto.getTarea(tituloTarea);
-        if (tarea == null) {
-            throw new TareaNoEncontradaException("La tarea con título '" + tituloTarea + "' no existe en el proyecto con ID: " + proyecto.getID());
-        }
-        return true;
-    }
-
+    
     public void agregarTarea(Integer IDProyecto, String tituloTarea, String descripcion, double diasNecesarios) {
         Validaciones.validarNoNegativo(IDProyecto);
         Validaciones.validarNoNegativo(diasNecesarios);
@@ -216,12 +204,6 @@ public class ProyectoService {
         } else {
             proyecto.agregarTarea(tituloTarea, descripcion, diasNecesarios);
         }
-    }
-
-    public double consultarCosto(Integer IDProyecto) {
-        Validaciones.validarNoNegativo(IDProyecto);
-        Proyecto proyecto = obtenerProyectoPorID(IDProyecto);
-        return proyecto.calcularCostoFinal();
     }
 
     public Proyecto obtenerProyectoPorID(Integer IDProyecto) {
@@ -239,8 +221,8 @@ public class ProyectoService {
         int telefonoCliente;
         try {
 	        telefonoCliente = Integer.parseInt(telefonoStr);
-	    } catch (DatosInvalidosException e) {
-	        throw new IllegalArgumentException("El teléfono del cliente no es un número válido: " + telefonoStr);
+	    } catch (NumberFormatException e) {
+	        throw new DatosInvalidosException("El teléfono del cliente no es un número válido: " + telefonoStr);
 	    }
 
         return telefonoCliente;

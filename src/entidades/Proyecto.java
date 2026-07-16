@@ -23,7 +23,7 @@ public class Proyecto {
 	private int telefonoCliente;
 	private String emailCliente;
 	
-	boolean tuvoRetraso = false;
+	private boolean tuvoRetraso = false;
 	
 	public Proyecto(int ID, String direccionVivienda, LocalDate fechaInicio, LocalDate fechaFin, String nombreCliente, int telefonoCliente, String emailCliente) {
 		this.numeroProyecto = ID;

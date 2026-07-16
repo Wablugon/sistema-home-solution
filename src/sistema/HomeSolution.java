@@ -83,7 +83,7 @@ public class HomeSolution implements IHomeSolution {
 
     @Override
     public double costoProyecto(Integer IDProyecto) {
-        return proyectoService.consultarCosto(IDProyecto);
+        return proyectoService.costoProyecto(IDProyecto);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class HomeSolution implements IHomeSolution {
 
     @Override
     public List<Tupla<Integer, String>> empleadosAsignadosAProyecto(Integer numero) {
-        return empleadoService.empleadosAsignados()
+        return proyectoService.empleadosAsignadosAProyecto(numero)
             .stream()
             .map(e -> new Tupla<>(e.getLegajo(), e.getNombre()))
             .toList();

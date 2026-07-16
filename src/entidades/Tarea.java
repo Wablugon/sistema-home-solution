@@ -1,5 +1,8 @@
 package entidades;
 
+import excepciones.DatosInvalidosException;
+import excepciones.EmpleadoNoDisponibleException;
+
 public class Tarea {
 	private String titulo;
 	private String descripcion;
@@ -35,20 +38,20 @@ public class Tarea {
 	}
 	
 	public void finalizarTarea() {
-		this.eliminarEmpleado();
+		this.eliminarResponsable();
 		this.estadoTarea = true;
 	}
 
 	public void registrarRetraso(double diasDeRetraso) {
 		this.cantidadDiasNecesarios += diasDeRetraso;
-		this.responsableACargo.registrarRetraso();
+		if (this.responsableACargo == null) {
+    		throw new EmpleadoNoDisponibleException("No se puede registrar un retraso en una tarea sin responsable");
+		} else {
+			this.responsableACargo.registrarRetraso();
+		}
 	}
 
 	public void eliminarResponsable() {
-		this.responsableACargo = null;
-	}
-	
-	private void eliminarEmpleado() {
 		this.responsableACargo = null;
 	}
 
@@ -60,9 +63,9 @@ public class Tarea {
 		return this.titulo;
 	}
 	
-	public boolean esMedioDia(double n) {
+	private boolean esMedioDia(double n) {
 		double parteDecimal = n - Math.floor(n);
-		return parteDecimal - 0.5 == 0;
+		return Math.abs(parteDecimal - 0.5) < 1e-9;
 	}
 }
 

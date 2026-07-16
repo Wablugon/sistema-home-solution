@@ -1,6 +1,8 @@
 package sistema;
 
 import entidades.Tupla;
+import excepciones.HomeSolutionException;
+
 import java.util.List;
 
 /**
@@ -38,7 +40,7 @@ public interface IHomeSolution {
      * Registra un empleado con un nombre y un valor base por hora.     *
      * @param nombre Nombre del empleado.
      * @param valor Valor de trabajo del empleado.
-     * @throws IllegalArgumentException Si el nombre es nulo o vacío, o el valor es negativo.
+     * @throws HomeSolutionException Si el nombre es nulo o vacío, o el valor es negativo.
      */
     public void registrarEmpleado(String nombre, double valor) throws IllegalArgumentException;
 
@@ -47,7 +49,7 @@ public interface IHomeSolution {
      * @param nombre Nombre del empleado.
      * @param valor Valor de trabajo del empleado.
      * @param categoria Categoría del empleado (por ejemplo, "Junior", "Senior").
-     * @throws IllegalArgumentException Si alguno de los parámetros es inválido.
+     * @throws HomeSolutionException Si alguno de los parámetros es inválido.
      */
     public void registrarEmpleado(String nombre, double valor, String categoria) throws IllegalArgumentException;
 
@@ -65,7 +67,7 @@ public interface IHomeSolution {
      * @param cliente Datos del cliente (nombre, mail, teléfono).
      * @param inicio Fecha de inicio del proyecto (formato YYYY-MM-DD).
      * @param fin Fecha de finalización estimada (formato YYYY-MM-DD).
-     * @throws IllegalArgumentException Si los datos son inconsistentes o faltan.
+     * @throws HomeSolutionException Si los datos son inconsistentes o faltan.
      */
     public void registrarProyecto(String[] titulos, String[] descripcion, double[] dias,
                                   String domicilio, String[] cliente, String inicio, String fin)
@@ -79,7 +81,7 @@ public interface IHomeSolution {
      * Asigna un empleado responsable a una tarea específica dentro de un proyecto.     *
      * @param numero Número o código del proyecto.
      * @param titulo Título de la tarea a asignar.
-     * @throws Exception si intenta asignar a una tarea ya asignada o el proyecto esta finalizado
+     * @throws HomeSolutionException si intenta asignar a una tarea ya asignada o el proyecto esta finalizado
      */
     public void asignarResponsableEnTarea(Integer numero, String titulo) throws Exception;
 
@@ -88,7 +90,7 @@ public interface IHomeSolution {
      *
      * @param numero Número o código del proyecto.
      * @param titulo Título de la tarea.
-     *@throws Exception si no hay empleados disponibles o la tarea ya fue asignada o el proyecto esta finalizado
+     * @throws HomeSolutionException si no hay empleados disponibles o la tarea ya fue asignada o el proyecto esta finalizado
      */
     public void asignarResponsableMenosRetraso(Integer numero, String titulo) throws Exception;
 
@@ -98,7 +100,7 @@ public interface IHomeSolution {
      * @param numero Número o código del proyecto.
      * @param titulo Título de la tarea.
      * @param cantidadDias Días de retraso acumulados.
-     * @throws IllegalArgumentException Si los valores son incorrectos.
+     * @throws HomeSolutionException Si los valores son incorrectos.
      */
     public void registrarRetrasoEnTarea(Integer numero, String titulo, double cantidadDias) throws IllegalArgumentException;
 
@@ -109,7 +111,7 @@ public interface IHomeSolution {
      * @param titulo Título de la nueva tarea.
      * @param descripcion Descripción de la tarea.
      * @param dias Días estimados de duración.
-     * @throws IllegalArgumentException Si los valores son incorrectos o el proyecto ya esta finalizado.
+     * @throws HomeSolutionException Si los valores son incorrectos o el proyecto ya esta finalizado.
      */
     public void agregarTareaEnProyecto(Integer numero, String titulo, String descripcion, double dias) throws  IllegalArgumentException;
 
@@ -117,7 +119,7 @@ public interface IHomeSolution {
      * Marca una tarea como finalizada.     *
      * @param numero Número o código del proyecto.
      * @param titulo Título de la tarea a finalizar.
-     * @throws Exception Si la tarea ya estaba finalizada.
+     * @throws HomeSolutionException Si la tarea ya estaba finalizada.
      */
     public void finalizarTarea(Integer numero, String titulo)
             throws Exception;
@@ -126,7 +128,7 @@ public interface IHomeSolution {
      * Marca un proyecto completo como finalizado.
      * @param numero Número o código del proyecto.
      * @param fin Fecha de inicio de finalización (formato YYYY-MM-DD).
-     * @throws IllegalArgumentException si la fecha es incorrecta( anterior a la fecha de inicio)
+     * @throws HomeSolutionException si la fecha es incorrecta( anterior a la fecha de inicio)
      */
     public void finalizarProyecto(Integer numero, String fin) throws IllegalArgumentException;
 
@@ -141,7 +143,7 @@ public interface IHomeSolution {
      * @param numero Número o código del proyecto.
      * @param legajo Legajo del empleado a reasignar.
      * @param titulo Título de la tarea.
-     * @throw  Exception si no hay empleados disponibles o si no tiene asignado un empleado previamente
+     * @throws HomeSolutionException si no hay empleados disponibles o si no tiene asignado un empleado previamente
      */
     public void reasignarEmpleadoEnProyecto(Integer numero, Integer legajo, String titulo) throws Exception;
 
@@ -150,7 +152,7 @@ public interface IHomeSolution {
      * Libera al empleado anterior.
      * @param numero Número o código del proyecto.
      * @param titulo Título de la tarea.
-     * @throw  Exception si no hay empleados disponibles o si no tiene asignado un empleado previamente
+     * @throws HomeSolutionException si no hay empleados disponibles o si no tiene asignado un empleado previamente
      */
     public void reasignarEmpleadoConMenosRetraso(Integer numero, String titulo)throws Exception;
 
