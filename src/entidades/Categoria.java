@@ -7,12 +7,11 @@ public enum Categoria {
     TECNICO,
     EXPERTO;
 
-    public static boolean esCategoriaValida(String categoria) {
+    public static Categoria esCategoriaValida(String categoria) {
         try {
-            Categoria.valueOf(categoria);
-            return true;
-        } catch (DatosInvalidosException e) {
-            return false;
+            return Categoria.valueOf(categoria.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new DatosInvalidosException("Categoría inválida: " + categoria);
         }
     }
 }

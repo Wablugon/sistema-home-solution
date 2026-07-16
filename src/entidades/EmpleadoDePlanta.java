@@ -1,11 +1,11 @@
 package entidades;
 
 public class EmpleadoDePlanta extends Empleado{
-	private String categoriaEmpleado;
+	private Categoria categoriaEmpleado;
 	
 	/*private static final int HORAS_DIA = 8;*/
 	
-	public EmpleadoDePlanta(String nombre, double valorDia, int legajo, String categoria) {
+	public EmpleadoDePlanta(String nombre, double valorDia, int legajo, Categoria categoria) {
 		super(nombre, valorDia, legajo);
 		this.categoriaEmpleado = categoria;
 		this.tipo = "Planta";
@@ -27,7 +27,7 @@ public class EmpleadoDePlanta extends Empleado{
     }*/
 
 	public String obtenerCategoria() {
-		return this.categoriaEmpleado;
+		return this.categoriaEmpleado.toString();
 	}
     /*
 	@Override

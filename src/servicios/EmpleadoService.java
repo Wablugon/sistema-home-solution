@@ -36,9 +36,9 @@ public class EmpleadoService {
         Validaciones.validarPositivo(valor);
         Validaciones.validarNoVacio(categoria);
 
-        Categoria.esCategoriaValida(categoria);
+        Categoria catEnum = Categoria.esCategoriaValida(categoria);
 
-        Empleado empleadoNuevo = new EmpleadoDePlanta(nombre, valor, generarLegajo(), categoria);
+        Empleado empleadoNuevo = new EmpleadoDePlanta(nombre, valor, generarLegajo(), catEnum);
         empleados.put(empleadoNuevo.getLegajo(), empleadoNuevo);
     }
 
