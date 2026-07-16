@@ -6,7 +6,6 @@ import servicios.AsignacionService;
 import servicios.EmpleadoService;
 import servicios.ProyectoService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeSolution implements IHomeSolution {
