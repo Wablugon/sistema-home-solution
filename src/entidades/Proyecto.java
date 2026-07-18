@@ -20,12 +20,12 @@ public class Proyecto {
 	private LocalDate fechaRealFin;
 	private Estado estadoProyecto;
 	private String nombreCliente;
-	private int telefonoCliente;
+	private String telefonoCliente;
 	private String emailCliente;
 	
 	private boolean tuvoRetraso = false;
 	
-	public Proyecto(int ID, String direccionVivienda, LocalDate fechaInicio, LocalDate fechaFin, String nombreCliente, int telefonoCliente, String emailCliente) {
+	public Proyecto(int ID, String direccionVivienda, LocalDate fechaInicio, LocalDate fechaFin, String nombreCliente, String telefonoCliente, String emailCliente) {
 		this.numeroProyecto = ID;
 		
 		this.direccionVivienda = direccionVivienda;

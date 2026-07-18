@@ -43,7 +43,6 @@ public class ProyectoService {
 
         String nombreCliente = cliente[0];
 	    String emailCliente = cliente[1];
-	    int telefonoCliente;
 	    String telefonoStr = cliente[2];
 
         Validaciones.validarNoNulo(nombreCliente);
@@ -53,7 +52,7 @@ public class ProyectoService {
         Validaciones.validarNoNulo(telefonoStr);
         Validaciones.validarNoVacio(telefonoStr);
 
-        telefonoCliente = convertirTelefono(telefonoStr);
+        telefonoStr = validarTelefono(telefonoStr);
 
         LocalDate fechaInicio = Validaciones.parsearFecha(inicio);
         LocalDate fechaFin = Validaciones.parsearFecha(fin);
@@ -61,7 +60,7 @@ public class ProyectoService {
         Validaciones.validarFechaFutura(fechaFin);
         Validaciones.validarOrdenFechas(fechaInicio, fechaFin);
 
-        Proyecto nuevoProyecto = new Proyecto(generarID(), domicilio, fechaInicio, fechaFin, nombreCliente, telefonoCliente, emailCliente);
+        Proyecto nuevoProyecto = new Proyecto(generarID(), domicilio, fechaInicio, fechaFin, nombreCliente, telefonoStr, emailCliente);
         for(int i = 0; i < titulos.length; i++) {
             Validaciones.validarNoNulo(titulos[i]);
             Validaciones.validarNoVacio(titulos[i]);
@@ -216,15 +215,43 @@ public class ProyectoService {
         return proyecto.toString();
     }
 
-    private int convertirTelefono(String telefonoStr) {
-        int telefonoCliente;
-        try {
-	        telefonoCliente = Integer.parseInt(telefonoStr);
-	    } catch (NumberFormatException e) {
-	        throw new DatosInvalidosException("El teléfono del cliente no es un número válido: " + telefonoStr);
-	    }
+    public String validarTelefono(String telefono) {
 
-        return telefonoCliente;
+        Validaciones.validarNoVacio(telefono);
+
+        // Eliminar espacios, guiones y guiones bajos
+        telefono = telefono.trim()
+                        .replaceAll("[\\s_-]+", "");
+
+        // Verificar que sólo queden dígitos
+        if (!telefono.matches("\\d+")) {
+            throw new DatosInvalidosException(
+                "El teléfono sólo puede contener números, espacios, guiones (-) y guiones bajos (_)."
+            );
+        }
+
+        // Debe comenzar con el código de país de Argentina
+        if (!telefono.startsWith("54")) {
+            throw new DatosInvalidosException(
+                "El teléfono debe comenzar con el código de país 54."
+            );
+        }
+
+        // Debe incluir el 9 de celular
+        if (telefono.charAt(2) != '9') {
+            throw new DatosInvalidosException(
+                "El teléfono debe incluir el prefijo 9 luego del código de país. Ejemplo: 54 9 11 12345678."
+            );
+        }
+
+        // Longitud mínima: 54 + 9 + código de área + número
+        if (telefono.length() < 13) {
+            throw new DatosInvalidosException(
+                "El teléfono está incompleto. Ejemplo válido: 54 9 11 12345678."
+            );
+        }
+
+        return telefono;
     }
 
     private int generarID() {
