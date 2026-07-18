@@ -1,6 +1,5 @@
 package entidades;
 
-import excepciones.DatosInvalidosException;
 import excepciones.EmpleadoNoDisponibleException;
 
 public class Tarea {

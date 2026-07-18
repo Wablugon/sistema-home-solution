@@ -13,7 +13,6 @@ import entidades.Tarea;
 import excepciones.DatosInvalidosException;
 import excepciones.ProyectoFinalizadoException;
 import excepciones.ProyectoNoEncontradoException;
-import excepciones.TareaNoEncontradaException;
 import util.Validaciones;
 
 public class ProyectoService {
