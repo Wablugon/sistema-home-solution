@@ -4,11 +4,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-/**
- * Constantes y utilidades de estilo visual para mantener una apariencia
- * consistente en toda la capa de presentación (gui).
- * No contiene lógica de negocio: es puramente estético / de layout.
- */
 public final class UITheme {
 
     public static final Color COLOR_FONDO = new Color(245, 247, 250);
@@ -106,7 +101,7 @@ public final class UITheme {
         return boton;
     }
 
-    /** Botón de acción peligrosa / irreversible (ej. finalizar proyecto). */
+    /** Botón de acción peligrosa / irreversible. */
     public static JButton botonPeligro(String texto) {
         JButton boton = botonBase(texto);
         boton.setBackground(COLOR_PELIGRO);

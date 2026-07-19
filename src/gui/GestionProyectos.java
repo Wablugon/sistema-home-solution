@@ -1,6 +1,7 @@
 package gui;
 
 import entidades.Tupla;
+import excepciones.HomeSolutionException;
 import gui.util.DialogoUtils;
 import gui.util.UITheme;
 
@@ -9,11 +10,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Vista de gestión de un proyecto puntual: administración de sus tareas
- * (asignación, reasignación, retrasos, alta y finalización) y del proyecto
- * en su conjunto (costo, empleados asignados, finalización).
- */
 public class GestionProyectos extends JPanel {
 
     private final PanelManager panelManager;
@@ -333,8 +329,11 @@ public class GestionProyectos extends JPanel {
             panelManager.sistema().finalizarProyecto(numeroProyecto, formulario.getFecha());
             DialogoUtils.mostrarInfo(this, "Proyecto finalizado correctamente.");
             panelManager.mostrar(PanelManager.PANTALLA_GESTION_PROYECTO);
-        } catch (IllegalArgumentException ex) {
+        } catch (HomeSolutionException ex) {
             DialogoUtils.mostrarError(this, "La fecha ingresada no es válida.");
+        } catch (Exception ex) {
+            DialogoUtils.mostrarError(this, "Ocurrió un error inesperado.");
+            ex.printStackTrace();
         }
     }
 

@@ -9,10 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Vista de consulta de proyectos: permite filtrar por estado (pendiente,
- * activo o finalizado) y acceder a la gestión detallada del seleccionado.
- */
 public class ListaProyectos extends JPanel {
 
     private static final String ESTADO_PENDIENTE = "PENDIENTE";

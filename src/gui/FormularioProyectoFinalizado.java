@@ -8,10 +8,6 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
 
-/**
- * Diálogo modal para capturar la fecha de finalización de un proyecto
- * al marcarlo como finalizado.
- */
 public class FormularioProyectoFinalizado extends JDialog {
 
     private JFormattedTextField fechaFinalizacion;
@@ -43,8 +39,18 @@ public class FormularioProyectoFinalizado extends JDialog {
         fechaFinalizacion.setColumns(10);
 
         panel.add(labelFecha, UITheme.gbc(0, 0));
-        panel.add(fechaFinalizacion, UITheme.gbc(1, 0));
+        //panel.add(fechaFinalizacion, UITheme.gbc(1, 0));
 
+        //--------------
+        GridBagConstraints gbcCampo = new GridBagConstraints();
+        gbcCampo.gridx = 1;
+        gbcCampo.gridy = 0;
+        gbcCampo.weightx = 1.0;
+        gbcCampo.fill = GridBagConstraints.HORIZONTAL;
+        gbcCampo.insets = new Insets(5, 5, 5, 5);
+
+        panel.add(fechaFinalizacion, gbcCampo);
+        //--------------
         JButton btnAceptar = UITheme.botonPrimario("Aceptar");
         JButton btnCancelar = UITheme.botonVolver("Cancelar");
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT));

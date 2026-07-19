@@ -3,11 +3,6 @@ package gui.util;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Métodos de utilidad para la generación de ventanas emergentes
- * (alertas, errores y confirmaciones), centralizando el uso de JOptionPane
- * en toda la capa de presentación.
- */
 public final class DialogoUtils {
 
     private DialogoUtils() {

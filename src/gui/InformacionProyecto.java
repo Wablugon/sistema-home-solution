@@ -5,10 +5,6 @@ import gui.util.UITheme;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Diálogo modal de solo lectura que muestra la información detallada
- * de un proyecto puntual.
- */
 public class InformacionProyecto extends JDialog {
 
     public InformacionProyecto(Frame frame, Integer numero, String informacion) {

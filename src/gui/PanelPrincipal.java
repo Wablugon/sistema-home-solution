@@ -5,10 +5,6 @@ import gui.util.UITheme;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Contenedor base de la aplicación: menú principal desde el cual se navega
- * al resto de las funcionalidades del sistema.
- */
 public class PanelPrincipal extends JPanel {
 
     private final PanelManager panelManager;

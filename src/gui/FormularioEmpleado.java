@@ -6,10 +6,6 @@ import gui.util.UITheme;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Formulario para la captura de datos de nuevos empleados, tanto
- * contratados (por hora) como de planta permanente (por día + categoría).
- */
 public class FormularioEmpleado extends JPanel {
 
     private final PanelManager panelManager;

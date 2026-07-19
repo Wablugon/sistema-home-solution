@@ -6,13 +6,12 @@ import gui.util.UITheme;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+
+import excepciones.HomeSolutionException;
+
 import java.awt.*;
 import java.text.ParseException;
 
-/**
- * Formulario para dar de alta un nuevo proyecto: datos del cliente,
- * fechas, domicilio y el listado de tareas iniciales a realizar.
- */
 public class FormularioProyecto extends JPanel {
 
     private final PanelManager panelManager;
@@ -204,8 +203,8 @@ public class FormularioProyecto extends JPanel {
             DialogoUtils.mostrarInfo(this, "Proyecto creado correctamente.");
             panelManager.reiniciarFormularioProyecto();
             panelManager.mostrar(PanelManager.PANTALLA_LISTA_PROYECTOS);
-        } catch (IllegalArgumentException exception) {
-            DialogoUtils.mostrarError(this, "Los valores ingresados no son válidos.");
+        } catch (HomeSolutionException exception) {
+            DialogoUtils.mostrarError(this, exception.getMessage());
         }
     }
 }

@@ -6,10 +6,6 @@ import gui.util.UITheme;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Diálogo modal para capturar los datos de una nueva tarea
- * (título, descripción y cantidad de días estimados).
- */
 public class FormularioTarea extends JDialog {
 
     private JTextField textTitulo;

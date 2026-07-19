@@ -9,10 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Vista de administración de empleados: lista los empleados registrados
- * y permite consultar la cantidad de retrasos del empleado seleccionado.
- */
 public class GestionEmpleados extends JPanel {
 
     private final PanelManager panelManager;

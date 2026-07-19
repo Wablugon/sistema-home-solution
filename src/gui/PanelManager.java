@@ -6,15 +6,8 @@ import gui.util.UITheme;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Controlador de vistas (Facade de la capa de presentación).
- * Se encarga exclusivamente de la navegación entre paneles y de dar acceso
- * al backend (HomeSolution) y al estado de selección compartido entre pantallas.
- * No contiene lógica de negocio.
- */
 public class PanelManager {
 
-    // Códigos de pantalla, centralizados para evitar "números mágicos" sueltos en cada vista.
     public static final int PANTALLA_PRINCIPAL = 1;
     public static final int PANTALLA_NUEVO_EMPLEADO = 2;
     public static final int PANTALLA_GESTION_EMPLEADOS = 3;
@@ -55,7 +48,6 @@ public class PanelManager {
         jFrame.setVisible(true);
     }
 
-    /** Navega a una pantalla según su código. Las vistas con datos dinámicos se reconstruyen para reflejar el estado actual. */
     public void mostrar(int codigoPantalla) {
         switch (codigoPantalla) {
             case PANTALLA_PRINCIPAL:
